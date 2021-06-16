@@ -8,7 +8,7 @@ public class RadiusTrigger : MonoBehaviour
     public float radius = 1f;
     public Transform ptTf;
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Vector2 center = transform.position;
         Vector2 objPosition = ptTf.position;
