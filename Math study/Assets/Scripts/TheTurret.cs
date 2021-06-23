@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class TheThurret : MonoBehaviour
+public class TheTurret : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
@@ -20,7 +21,7 @@ public class TheThurret : MonoBehaviour
 
             Quaternion turretRot = Quaternion.LookRotation(forward, up);
             Matrix4x4 turretToWorld = Matrix4x4.TRS(hitPos, turretRot, Vector3.one);
-            Matrix4x4 WorldToTurret = turretToWorld.inverse;
+            // Matrix4x4 WorldToTurret = turretToWorld.inverse;
 
             // from assignment
             Vector3[] pts = new Vector3[]
@@ -35,13 +36,27 @@ public class TheThurret : MonoBehaviour
                 new Vector3(1, 2, -1)
             };
 
+            Gizmos.matrix = turretToWorld;
+
             Gizmos.color = Color.red;
             for (int i = 0; i < pts.Length; i++)
             {
-                Vector3 worldPt = turretToWorld.MultiplyPoint3x4(pts[i]);
-
                 Gizmos.DrawSphere(pts[i], 0.075f);
             }
+
+            Handles.color = Color.white;
+            Handles.DrawAAPolyLine(headPos, hitPos);
+
+            Gizmos.color = Color.red;
+            DrawRay(Vector3.zero, Vector3.right);
+            Gizmos.color = Color.green  ;
+            DrawRay(Vector3.zero, Vector3.up);
+            Gizmos.color = Color.blue;
+            DrawRay(Vector3.zero, Vector3.forward);
+        } else
+        {
+            Gizmos.color = Color.red;
+            DrawRay(headPos, lookDir);
         }
     }
 }
